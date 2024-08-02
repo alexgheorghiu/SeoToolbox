@@ -7,14 +7,6 @@ def main(page: ft.Page):
     page.title = "Simple List management"
     page.vertical_alignment = ft.MainAxisAlignment.START
 
-    #page.horizontal_alignment = ft.CrossAxisAlignment.START
-
-    # lv = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=True)
-    # count = 1
-    # for i in range(0, 60):
-    #     lv.controls.append(ft.Text(f"Line {count}"))
-    #     count += 1
-
     statsA = ft.Text(value="No keyword: 0");
     statsB = ft.Text(value="No keyword: 0");
     statsR = ft.Text(value="No keyword: 0");
@@ -47,6 +39,7 @@ def main(page: ft.Page):
         update_no_keywords_r(e, False)
         update_no_keywords_b(e, False)
         page.update()
+
 
     tfA = ft.TextField(multiline=True, min_lines=15, max_lines=15, on_change=update_no_keywords_a)
     tfR = ft.TextField(multiline=True, min_lines=20, max_lines=20, on_change=update_no_keywords_r)
@@ -103,13 +96,29 @@ def main(page: ft.Page):
         update_stats(e, False)
         page.update()
 
+    def clear_list_a(e):
+        tfA.value = ''
+        update_no_keywords_a(e)
 
+    def clear_list_r(e):
+        tfR.value = ''
+        update_no_keywords_r(e)
 
+    def clear_list_b(e):
+        tfB.value = ''
+        update_no_keywords_b(e)
 
     a = ft.Container(
         content=ft.Column(
             controls=[
-                ft.Container(content=ft.Text(value="List A")),
+                ft.Container(content=ft.Row(
+                    controls=[ft.Text(value="List A"),
+                              ft.IconButton(
+                                  icon=ft.icons.DELETE,
+                                  on_click=clear_list_a,
+                                  tooltip="Clear list A")
+                              ])
+                ),
                 ft.Container(content=tfA),
                 statsA
             ],
@@ -126,7 +135,12 @@ def main(page: ft.Page):
                     ft.ElevatedButton(text="B∪A", on_click=a_union_b, tooltip='Keywords present either in A or in B'),
                     ft.ElevatedButton(text="B∩A", on_click=a_intersection_b, tooltip='Keywords present both in A and in B'),
                 ], alignment=ft.MainAxisAlignment.CENTER),
-                ft.Row(controls=[ft.Text(value="Result list")], alignment=ft.MainAxisAlignment.START),
+                ft.Row(controls=[ft.Text(value="Result list"),
+                                 ft.IconButton(
+                                     icon=ft.icons.DELETE,
+                                     on_click=clear_list_r,
+                                     tooltip="Clear result list")
+                                 ], alignment=ft.MainAxisAlignment.START),
                 tfR,
                 statsR,
                 ft.Row(
@@ -141,7 +155,10 @@ def main(page: ft.Page):
 
     b = ft.Container(
         content=ft.Column(controls=[
-            ft.Text(value="List B"),
+            ft.Row(controls=[ft.Text(value="List B"), ft.IconButton(
+                                     icon=ft.icons.DELETE,
+                                     on_click=clear_list_b,
+                                     tooltip="Clear list B")]),
             tfB,
             statsB
         ]),
