@@ -9,8 +9,8 @@ from nltk.corpus import stopwords
 
 from list_utils import read_file, write_lines
 
-#import nltk
-#nltk.download('stopwords')
+import nltk
+nltk.download('stopwords')
 
 
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -54,9 +54,8 @@ if __name__ == '__main__':
     sorted_x = sorted(dict_df.items(), key=lambda kv: kv[1])
     # print(sorted_x)
 
-    lst = map(lambda x: f'{x[0]}, {x[1]}', sorted_x)
-    print(type(lst))
+    a_map = map(lambda x: f'{x[0]}, {x[1]}', sorted_x)
     # print("\n".join(lst))
     # print(len(lst))
-    # write_lines(lst, args.output)
+    write_lines(list(a_map), args.output)
     # print("\n".join(lst))
